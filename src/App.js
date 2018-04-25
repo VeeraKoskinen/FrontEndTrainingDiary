@@ -61,7 +61,7 @@ class App extends React.Component {
             password: this.state.password
           })
     
-          window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+          window.localStorage.setItem('loggedTrainingappUser', JSON.stringify(user))
           eventtiService.setToken(user.token)
           
           console.log(user)
@@ -75,6 +75,15 @@ class App extends React.Component {
     
           console.log(exception)
         }
+    }
+
+    logout = async () => {
+        console.log('logout metodissa')
+    
+        window.localStorage.removeItem('loggedTrainingappUser')
+        this.setState({ user: null, username: '', password: '' })
+        window.localStorage.clear()
+    
     }
     
 
@@ -90,6 +99,11 @@ class App extends React.Component {
             return (
                 <div>
                     You are logged in as {this.state.name}.
+                    <div>
+                        <form onSubmit={this.logout}>
+                            <button type="submit"> Logout </button>
+                        </form>
+                    </div>    
                 </div>
             )
         }
