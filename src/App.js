@@ -103,7 +103,7 @@ class App extends React.Component {
     updateError = (message) => {
         this.setState({ error: message })
         setTimeout(() => {
-          this.setState({ error: null })
+            this.setState({ error: null })
         }, 3000)
     }
 
@@ -123,11 +123,17 @@ class App extends React.Component {
             return (
                 <div>
                     You are logged in as {this.state.name}.
+                    <form onSubmit={this.logout}>
+                        <button type="submit"> Logout </button>
+                    </form>
+
+                    <h2>Your trainings</h2>
                     <div>
-                        <form onSubmit={this.logout}>
-                            <button type="submit"> Logout </button>
-                        </form>
+                        {this.state.events.map(eventti =>
+                            <Eventti key={eventti._id} eventti={eventti} />
+                        )}
                     </div>
+
                     <Notification message={this.state.notification} className={"notification"} />
                     <Notification message={this.state.error} className={"error"} />
                 </div>
