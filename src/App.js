@@ -3,6 +3,8 @@ import React from 'react'
 import Eventti from './components/Eventti'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import EventsAddingForm from './components/EventsAddingForm'
+import Togglable from './components/Togglable'
 
 import eventtiService from './services/events'
 import loginService from './services/loginService'
@@ -39,8 +41,12 @@ class App extends React.Component {
         this.setState({ events })
 
         const loggedUserJSON = window.localStorage.getItem('loggedTrainingappUser')
+        console.log("UserJSON: ")
+        console.log(loggedUserJSON)
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
+            console.log("Tulostetaan: ", user.id)
+            console.log("Tulostetaan: ", user.name)
             this.setState({ user })
             eventtiService.setToken(user.token)
             this.setState({ name: user.name })
@@ -57,7 +63,7 @@ class App extends React.Component {
 
     login = async (event) => {
         event.preventDefault()
-        console.log('login in with: ', this.state.username, this.state.password)
+        console.log('login with: ', this.state.username, this.state.password)
 
         try {
             const user = await loginService.login({
@@ -68,11 +74,10 @@ class App extends React.Component {
             window.localStorage.setItem('loggedTrainingappUser', JSON.stringify(user))
             eventtiService.setToken(user.token)
 
-            console.log(user)
+            console.log("Tulostetaan käyttäjä: ", user)
             this.setState({ name: user.name, username: '', password: '', user })
             console.log('nimi asetetaan userin mukaan:')
             console.log(this.state.name)
-            console.log(this.state.user)
 
         } catch (exception) {
             this.updateError('Käyttäjätunnus tai salasana on virheellinen!')
@@ -107,7 +112,49 @@ class App extends React.Component {
         }, 3000)
     }
 
+    // ---- Adding for events ---- //
 
+    addEventti = async (event) => {
+        event.preventDefault()
+        console.log('eventin lisäys-metodissa')
+        try {
+            const newEventti = await eventtiService.create({
+                title: this.state.title,
+                content: this.state.content
+            })
+
+            this.updateNotification(`Added new event: ${this.state.title} `)
+            this.setState({
+                events: this.state.events.concat(newEventti),
+                title: "",
+                content: ""
+            })
+
+        } catch (exception) {
+            this.updateError("We weren't able to add the event.")
+
+            console.log(exception)
+            console.log(this.state.error)
+        }
+    }
+
+    addingForm = () => {
+
+        return (
+            <Togglable buttonLabel="Add a new training">
+                <EventsAddingForm
+                    title={this.state.title}
+                    content={this.state.content}
+                    handleFieldChange={this.handleFieldChange}
+                    handleSubmit={this.addEventti}
+                />
+            </Togglable>
+        )
+    }
+
+    isItRightUser = (eventti) => {
+        return eventti.user === this.state.user._id
+    }
 
     render() {
         if (this.state.user === null) {
@@ -120,6 +167,7 @@ class App extends React.Component {
                 </div>
             )
         } else {
+            console.log("tässä käyttäjän tiedot: ", this.state.user)
             return (
                 <div>
                     You are logged in as {this.state.name}.
@@ -127,11 +175,21 @@ class App extends React.Component {
                         <button type="submit"> Logout </button>
                     </form>
 
-                    <h2>Your trainings</h2>
+                    <div className=".item1" >
+                        <h2>My trainings</h2>
+                    </div>
+                    <div className=".item2">
+                        {this.state.events
+                            .filter(object => {
+                                 return object.user._id === this.state.user.id
+                                })
+                            .map(eventti =>
+                                <Eventti key={eventti._id} eventti={eventti} />
+                            )}
+                    </div>
+
                     <div>
-                        {this.state.events.map(eventti =>
-                            <Eventti key={eventti._id} eventti={eventti} />
-                        )}
+                        {this.addingForm()}
                     </div>
 
                     <Notification message={this.state.notification} className={"notification"} />

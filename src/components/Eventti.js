@@ -15,7 +15,7 @@ class Eventti extends React.Component {
     longInformation = () => {
         const eventti = this.props.eventti
         return (
-            <div key={eventti._id} className={"eventti"}>
+            <div key={eventti._id} className={".grid-container"}>
                 <h3 onClick={this.toggleLongFalse}>{eventti.title}</h3>
                 <p>{eventti.content}</p>
             </div>
@@ -55,8 +55,6 @@ class Eventti extends React.Component {
             )
         }
     }
-
-
 }
 
 export default Eventti
