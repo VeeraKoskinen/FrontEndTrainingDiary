@@ -27,7 +27,7 @@ class Eventti extends React.Component {
         const eventti = this.props.eventti
         return (
             <div key={eventti._id} className={"eventti"}>
-                <h4 onClick={this.toggleLongTrue}>{eventti.title}</h4>
+                <p onClick={this.toggleLongTrue}>{eventti.title}</p>
             </div>
         )
     }
@@ -38,6 +38,13 @@ class Eventti extends React.Component {
 
     toggleLongTrue = () => {
         this.setState({ long: true })
+    }
+
+    remove = () => {
+        console.log("eventin remove metodissa")
+        const eventti = this.props.eventti
+        console.log(eventti.id)
+        eventtiService.remove(eventti.id)
     }
 
     render() {
@@ -51,6 +58,9 @@ class Eventti extends React.Component {
             return (
                 <div>
                     {this.shortInformation()}
+                    <div>
+                        <button onClick={this.remove} type="submit">Delete</button>
+                    </div>
                 </div>
             )
         }

@@ -41,12 +41,8 @@ class App extends React.Component {
         this.setState({ events })
 
         const loggedUserJSON = window.localStorage.getItem('loggedTrainingappUser')
-        console.log("UserJSON: ")
-        console.log(loggedUserJSON)
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
-            console.log("Tulostetaan: ", user.id)
-            console.log("Tulostetaan: ", user.name)
             this.setState({ user })
             eventtiService.setToken(user.token)
             this.setState({ name: user.name })
@@ -63,7 +59,6 @@ class App extends React.Component {
 
     login = async (event) => {
         event.preventDefault()
-        console.log('login with: ', this.state.username, this.state.password)
 
         try {
             const user = await loginService.login({
@@ -74,10 +69,7 @@ class App extends React.Component {
             window.localStorage.setItem('loggedTrainingappUser', JSON.stringify(user))
             eventtiService.setToken(user.token)
 
-            console.log("Tulostetaan käyttäjä: ", user)
             this.setState({ name: user.name, username: '', password: '', user })
-            console.log('nimi asetetaan userin mukaan:')
-            console.log(this.state.name)
 
         } catch (exception) {
             this.updateError('Käyttäjätunnus tai salasana on virheellinen!')
@@ -153,7 +145,17 @@ class App extends React.Component {
     }
 
     isItRightUser = (eventti) => {
-        return eventti.user === this.state.user._id
+        return eventti.user._id === this.state.user.id
+    }
+
+    logOut = () => {
+        return (
+            <div>
+                <form onSubmit={this.logout}>
+                    <button type="submit"> Logout </button>
+                </form>
+            </div>
+        )
     }
 
     render() {
@@ -171,29 +173,26 @@ class App extends React.Component {
             return (
                 <div>
                     You are logged in as {this.state.name}.
-                    <form onSubmit={this.logout}>
-                        <button type="submit"> Logout </button>
-                    </form>
+                    {this.logOut()}
+
+                    <Notification message={this.state.notification} className={"notification"} />
+                    <Notification message={this.state.error} className={"error"} />
 
                     <div className=".item1" >
                         <h2>My trainings</h2>
                     </div>
                     <div className=".item2">
                         {this.state.events
-                            .filter(object => {
-                                 return object.user._id === this.state.user.id
-                                })
+                            .filter(this.isItRightUser)
                             .map(eventti =>
                                 <Eventti key={eventti._id} eventti={eventti} />
-                            )}
+                            )
+                        }
                     </div>
 
                     <div>
                         {this.addingForm()}
                     </div>
-
-                    <Notification message={this.state.notification} className={"notification"} />
-                    <Notification message={this.state.error} className={"error"} />
                 </div>
             )
         }
