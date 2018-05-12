@@ -5,8 +5,8 @@ const EventsAddingForm = ({ handleSubmit, handleFieldChange, title, content }) =
 
     return (
         <div>
-            <h2>Add a new training</h2>
-            <form onSubmit={handleSubmit}>
+            <h3 classNmae="addUL">Add a new training</h3>
+            <form onSubmit={handleSubmit} className="addD">
                 <div>
                     Title:
                     <input
@@ -17,15 +17,17 @@ const EventsAddingForm = ({ handleSubmit, handleFieldChange, title, content }) =
                     />
                 </div>
                 <div>
-                    Comments and notes:
-                    <input
+                    <p> Comments and notes: </p>
+                    <textarea
                         type="text"
                         name="content"
                         value={content}
                         onChange={handleFieldChange}
+                        rows="8"
+                        cols="50"
                     />
                 </div>
-                <button type="submit">Add event</button>
+                <button className="button" type="submit">Add event</button>
             </form>
         </div>
     )

@@ -6,7 +6,7 @@ class Togglable extends React.Component {
     static propTypes = {
         buttonLabel: PropTypes.string.isRequired
     }
-    
+
 
     constructor(props) {
         console.log('luodaan togglen propsit ja statet')
@@ -20,7 +20,7 @@ class Togglable extends React.Component {
         this.setState({ visible: !this.state.visible })
     }
 
-    
+
 
     render() {
 
@@ -28,15 +28,14 @@ class Togglable extends React.Component {
         const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
         return (
-            <div>
-                <div style={hideWhenVisible}>
-
-                    <button onClick={this.toggleVisibility}>{this.props.buttonLabel}</button>
-                </div>
+            <div className="addU">
+                <div style={hideWhenVisible}>              
+                    <button className="button" onClick={this.toggleVisibility}>{this.props.buttonLabel}</button>                      
+                </div>  
                 <div style={showWhenVisible}>
                     {this.props.children}
-                    <button onClick={this.toggleVisibility}>Cancel</button>
-                </div>
+                    <button className="button" onClick={this.toggleVisibility}>Cancel</button>
+                </div>                
             </div>
         )
     }

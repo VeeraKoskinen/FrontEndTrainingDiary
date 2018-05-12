@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 const LoginForm = ({ onSubmit, username, handleFieldChange, password }) => (
-    <div>
-        <h1>Time to keep track of training!</h1>
-        <h3>Go to your training informations from here!</h3>
-        <form onSubmit={onSubmit}>
+    <div className="login">
+        <h1 className="headline1"> Time to keep track of trainings!</h1>
+        <h3 className="underHeadline"> Go to your notes from here!</h3>
+        <form onSubmit={onSubmit} className="middlebox">
             <div>
-                <h4>Sign in:</h4>
-                username: 
+                username:
                 <input
                     type="text"
                     name="username"
@@ -16,8 +15,8 @@ const LoginForm = ({ onSubmit, username, handleFieldChange, password }) => (
                     onChange={handleFieldChange}
                 />
             </div>
-            <div>    
-                password: 
+            <div>
+                password:
                 <input
                     type="password"
                     name="password"
@@ -25,9 +24,12 @@ const LoginForm = ({ onSubmit, username, handleFieldChange, password }) => (
                     onChange={handleFieldChange}
                 />
             </div>
-            <button type="submit">login</button>
-        </form>    
-    </div>   
+            <br/>
+            <div className="l_sidebox">
+                <button type="submit" className="button">Login</button>
+            </div>
+        </form>
+    </div>
 )
 
 

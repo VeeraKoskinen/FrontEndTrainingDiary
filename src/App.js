@@ -9,7 +9,6 @@ import Togglable from './components/Togglable'
 import eventtiService from './services/events'
 import loginService from './services/loginService'
 
-
 import './index.css'
 
 
@@ -133,14 +132,16 @@ class App extends React.Component {
     addingForm = () => {
 
         return (
-            <Togglable buttonLabel="Add a new training">
-                <EventsAddingForm
-                    title={this.state.title}
-                    content={this.state.content}
-                    handleFieldChange={this.handleFieldChange}
-                    handleSubmit={this.addEventti}
-                />
-            </Togglable>
+            <div>
+                <Togglable buttonLabel="Add a new training">
+                    <EventsAddingForm
+                        title={this.state.title}
+                        content={this.state.content}
+                        handleFieldChange={this.handleFieldChange}
+                        handleSubmit={this.addEventti}
+                    />
+                </Togglable>
+            </div>
         )
     }
 
@@ -152,7 +153,7 @@ class App extends React.Component {
         return (
             <div>
                 <form onSubmit={this.logout}>
-                    <button type="submit"> Logout </button>
+                    <button type="submit" > Logout </button>
                 </form>
             </div>
         )
@@ -171,27 +172,29 @@ class App extends React.Component {
         } else {
             console.log("tässä käyttäjän tiedot: ", this.state.user)
             return (
-                <div>
+                <div >
                     You are logged in as {this.state.name}.
                     {this.logOut()}
 
                     <Notification message={this.state.notification} className={"notification"} />
                     <Notification message={this.state.error} className={"error"} />
+                    <div className="wrapper">
+                        <div className="headline2">
+                            <h1>My trainings</h1>
+                        </div>
+                        <div className="listing">
 
-                    <div className=".item1" >
-                        <h2>My trainings</h2>
-                    </div>
-                    <div className=".item2">
-                        {this.state.events
-                            .filter(this.isItRightUser)
-                            .map(eventti =>
-                                <Eventti key={eventti._id} eventti={eventti} />
-                            )
-                        }
-                    </div>
+                            {this.state.events
+                                .filter(this.isItRightUser)
+                                .map(eventti =>
+                                    <Eventti key={eventti._id} eventti={eventti} />
+                                )
+                            }
 
-                    <div>
-                        {this.addingForm()}
+                        </div>
+                        <div className="add">
+                            {this.addingForm()}
+                        </div>
                     </div>
                 </div>
             )

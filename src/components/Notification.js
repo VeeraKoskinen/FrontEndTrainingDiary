@@ -1,7 +1,6 @@
 import React from 'react';
 
 class Notification extends React.Component {
-
    
     render() {
         if (this.props.message === null) {
