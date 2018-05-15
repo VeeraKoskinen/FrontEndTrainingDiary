@@ -7,7 +7,6 @@ let token = null
 
 const getAll = async () => {
   const request = await axios.get(baseUrl)
-  console.log(request.data)
   return request.data
 }
 

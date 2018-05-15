@@ -19,12 +19,12 @@ class App extends React.Component {
 
         this.state = {
             events: [],
+            attachments: [],
 
             user: null,
             username: "",
             password: "",
             name: "",
-
 
             title: "",
             content: "",
@@ -111,14 +111,16 @@ class App extends React.Component {
         try {
             const newEventti = await eventtiService.create({
                 title: this.state.title,
-                content: this.state.content
+                content: this.state.content,
+                attachments: this.state.attachments
             })
 
             this.updateNotification(`Added new event: ${this.state.title} `)
             this.setState({
                 events: this.state.events.concat(newEventti),
                 title: "",
-                content: ""
+                content: "",
+                attachments: []
             })
 
         } catch (exception) {
@@ -128,6 +130,34 @@ class App extends React.Component {
             console.log(this.state.error)
         }
     }
+
+    onDrop = (files) => {
+        let file = files[0]
+        const reader = new FileReader();
+        const helpList = this.state.attachments
+        reader.onload = (event) => {
+            helpList.push(event.target.result.split(',')[1])
+            console.log(event.target.result);
+        }
+        const attachment = reader.readAsDataURL(file);
+        console.log("attachment: ", attachment)
+        
+        this.setState({ attachments: helpList })
+        console.log("attachments: ", this.state.attachments)
+    }
+
+    /*
+    removeFromAttachments = (index) => {
+        var helpList = this.state.attachments;
+        if (index > -1) {
+            helpList.splice(index, 1);
+        }
+        this.setState({ attachments: helpList })
+    }
+    */
+
+ 
+
 
     addingForm = () => {
 
@@ -139,6 +169,7 @@ class App extends React.Component {
                         content={this.state.content}
                         handleFieldChange={this.handleFieldChange}
                         handleSubmit={this.addEventti}
+                        onDrop={this.onDrop}
                     />
                 </Togglable>
             </div>
@@ -169,6 +200,8 @@ class App extends React.Component {
                     <Notification message={this.state.error} className={"error"} />
                 </div>
             )
+
+
         } else {
             console.log("tässä käyttäjän tiedot: ", this.state.user)
             return (
@@ -190,11 +223,11 @@ class App extends React.Component {
                                     <Eventti key={eventti._id} eventti={eventti} />
                                 )
                             }
-
                         </div>
                         <div className="add">
                             {this.addingForm()}
                         </div>
+            
                     </div>
                 </div>
             )

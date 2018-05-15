@@ -36,6 +36,27 @@ p {
   grid-column-gap: 1em;
 }
 
+
+.dropbox {
+  padding-top: 1em;
+  padding-bottom: 0.5em;
+}
+
+.drop-zone {
+  color: green;
+  padding-block-end: 1em;
+  padding-block-start: 1em;
+  border: 2px dashed black;
+}
+.drop-zone.drop-zone-accept {
+  color: white;
+  background-color: green;
+}
+.drop-zone.drop-zone-reject {
+  color: white;
+  background-color: red;
+}
+
 .add{
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   display:grid;
