@@ -15,19 +15,23 @@ class Eventti extends React.Component {
     longInformation = () => {
         const eventti = this.props.eventti
         return (
-            <div key={eventti._id} className={".grid-container"}>
-                <h3 onClick={this.toggleLongFalse}>{eventti.title}</h3>
-                <div>{eventti.content}</div>
+            <div key={eventti._id} className="subsub" >
+                <h3 className="pointer" onClick={this.toggleLongFalse}>{eventti.title}</h3>
+                <p font-size="11px" font-family="Verdana">{eventti.content}</p>
+                {eventti.attachments.map(attachment =>
+                    <div key={attachment.id} className="center">
+                        <img className="image" src={attachment.url} />
+                    </div>
+                )}
             </div>
         )
-
     }
 
     shortInformation = () => {
         const eventti = this.props.eventti
         return (
-            <div key={eventti._id}>
-                <p onClick={this.toggleLongTrue}>{eventti.title}</p>
+            <div key={eventti._id} >
+                <p className="pointer" onClick={this.toggleLongTrue}>{eventti.title}</p>
             </div>
         )
     }
@@ -52,9 +56,7 @@ class Eventti extends React.Component {
         if (this.state.long) {
             return (
                 <div className="subinsideA">
-                    <div >
-                        {this.longInformation()}
-                    </div>
+                        {this.longInformation()}                   
                 </div>
             )
         } else {

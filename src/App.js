@@ -20,6 +20,7 @@ class App extends React.Component {
         this.state = {
             events: [],
             attachments: [],
+            attachmentCounter: 0,
 
             user: null,
             username: "",
@@ -114,13 +115,13 @@ class App extends React.Component {
                 content: this.state.content,
                 attachments: this.state.attachments
             })
-
             this.updateNotification(`Added new event: ${this.state.title} `)
             this.setState({
                 events: this.state.events.concat(newEventti),
                 title: "",
                 content: "",
-                attachments: []
+                attachments: [],
+                attachmentCounter: 0
             })
 
         } catch (exception) {
@@ -135,15 +136,29 @@ class App extends React.Component {
         let file = files[0]
         const reader = new FileReader();
         const helpList = this.state.attachments
+        this.attachmentName = files
+        console.log(attachment)
         reader.onload = (event) => {
             helpList.push(event.target.result.split(',')[1])
             console.log(event.target.result);
+            this.addToCounter()
         }
         const attachment = reader.readAsDataURL(file);
         console.log("attachment: ", attachment)
         
         this.setState({ attachments: helpList })
         console.log("attachments: ", this.state.attachments)
+    }
+
+    emptyAttachments = () => {
+        this.setState({
+            attachments: [],
+            attachmentCounter: 0
+        })
+    }
+
+    addToCounter = () => {
+        this.setState({ attachmentCounter: this.state.attachmentCounter + 1})
     }
 
     /*
@@ -156,20 +171,18 @@ class App extends React.Component {
     }
     */
 
- 
-
-
     addingForm = () => {
 
         return (
             <div>
-                <Togglable buttonLabel="Add a new training">
+                <Togglable buttonLabel="Add a new training" empty={this.emptyAttachments}>
                     <EventsAddingForm
                         title={this.state.title}
                         content={this.state.content}
                         handleFieldChange={this.handleFieldChange}
                         handleSubmit={this.addEventti}
                         onDrop={this.onDrop}
+                        attachmentCounter={this.state.attachmentCounter}
                     />
                 </Togglable>
             </div>
@@ -184,7 +197,7 @@ class App extends React.Component {
         return (
             <div>
                 <form onSubmit={this.logout}>
-                    <button type="submit" > Logout </button>
+                    <button className="button" type="submit" > Logout </button>
                 </form>
             </div>
         )
@@ -206,26 +219,24 @@ class App extends React.Component {
             console.log("tässä käyttäjän tiedot: ", this.state.user)
             return (
                 <div >
-                    You are logged in as {this.state.name}.
-                    {this.logOut()}
+                    <p>You are logged in as {this.state.name}.</p>
+                    <div>{this.logOut()}</div>
 
                     <Notification message={this.state.notification} className={"notification"} />
                     <Notification message={this.state.error} className={"error"} />
                     <div className="wrapper">
                         <div className="headline2">
                             <h1>My trainings</h1>
+                            {this.addingForm()}
                         </div>
                         <div className="listing">
 
                             {this.state.events
                                 .filter(this.isItRightUser)
                                 .map(eventti =>
-                                    <Eventti key={eventti._id} eventti={eventti} />
+                                   <Eventti key={eventti._id} eventti={eventti} /> 
                                 )
                             }
-                        </div>
-                        <div className="add">
-                            {this.addingForm()}
                         </div>
             
                     </div>

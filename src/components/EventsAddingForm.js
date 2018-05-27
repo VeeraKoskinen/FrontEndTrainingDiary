@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DrackAndDropBox from './DrackAndDropBox'
 
-const EventsAddingForm = ({ handleSubmit, handleFieldChange, title, content, onDrop }) => {
-
+const EventsAddingForm = ({ handleSubmit, handleFieldChange, title, content, onDrop, attachmentCounter }) => {
+    console.log(attachmentCounter)
     return (
         <div>
             <h3 className="addUL">Add a new training</h3>
@@ -19,8 +19,10 @@ const EventsAddingForm = ({ handleSubmit, handleFieldChange, title, content, onD
                 </div>
                 <div >
                     <DrackAndDropBox onDrop={onDrop}/>
+                    Attachments: {attachmentCounter}
                 </div> 
                 <div>
+                
                     <textarea
                         type="text"
                         name="content"
@@ -30,6 +32,7 @@ const EventsAddingForm = ({ handleSubmit, handleFieldChange, title, content, onD
                         cols="50"
                         placeholder="Add your marks and comments here!"
                     />
+              
                 </div>
                    
                 <button className="button" type="submit">Add event</button>
