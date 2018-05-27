@@ -116,8 +116,9 @@ class App extends React.Component {
                 attachments: this.state.attachments
             })
             this.updateNotification(`Added new event: ${this.state.title} `)
+            const events = await eventtiService.getAll()
             this.setState({
-                events: this.state.events.concat(newEventti),
+                events,
                 title: "",
                 content: "",
                 attachments: [],
@@ -130,6 +131,12 @@ class App extends React.Component {
             console.log(exception)
             console.log(this.state.error)
         }
+    }
+
+    removeEventti = async (eventti) => {
+        await eventtiService.remove(eventti.id) 
+        const events = await eventtiService.getAll()
+        this.setState({ events })   
     }
 
     onDrop = (files) => {
@@ -160,16 +167,6 @@ class App extends React.Component {
     addToCounter = () => {
         this.setState({ attachmentCounter: this.state.attachmentCounter + 1})
     }
-
-    /*
-    removeFromAttachments = (index) => {
-        var helpList = this.state.attachments;
-        if (index > -1) {
-            helpList.splice(index, 1);
-        }
-        this.setState({ attachments: helpList })
-    }
-    */
 
     addingForm = () => {
 
@@ -234,7 +231,7 @@ class App extends React.Component {
                             {this.state.events
                                 .filter(this.isItRightUser)
                                 .map(eventti =>
-                                   <Eventti key={eventti._id} eventti={eventti} /> 
+                                   <Eventti key={eventti._id} eventti={eventti} remove={(event) => this.removeEventti(event)} /> 
                                 )
                             }
                         </div>

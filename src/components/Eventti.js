@@ -17,7 +17,7 @@ class Eventti extends React.Component {
         return (
             <div key={eventti._id} className="subsub" >
                 <h3 className="pointer" onClick={this.toggleLongFalse}>{eventti.title}</h3>
-                <p font-size="11px">{eventti.content}</p>
+                <p fontSize="11px">{eventti.content}</p>
                 {eventti.attachments.map(attachment =>
                     <div key={attachment.id} className="center">
                         <img className="image" src={attachment.url} />
@@ -48,7 +48,8 @@ class Eventti extends React.Component {
         console.log("eventin remove metodissa")
         const eventti = this.props.eventti
         if (window.confirm(`Poistetaanko '${eventti.title}'?`)) {
-            eventtiService.remove(eventti.id)
+            console.log(this.props.remove)
+            this.props.remove(eventti)
         }
     }
 
