@@ -17,7 +17,7 @@ class Eventti extends React.Component {
         return (
             <div key={eventti._id} className="subsub" >
                 <h3 className="pointer" onClick={this.toggleLongFalse}>{eventti.title}</h3>
-                <p font-size="11px" font-family="Verdana">{eventti.content}</p>
+                <p font-size="11px">{eventti.content}</p>
                 {eventti.attachments.map(attachment =>
                     <div key={attachment.id} className="center">
                         <img className="image" src={attachment.url} />
