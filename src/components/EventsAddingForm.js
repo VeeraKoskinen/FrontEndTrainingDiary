@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import DrackAndDropBox from './DrackAndDropBox'
 
 const EventsAddingForm = ({ handleSubmit, handleFieldChange, title, content, onDrop, attachmentCounter }) => {
-    console.log(attachmentCounter)
     return (
         <div>
             <h3 className="addUL">Add a new training</h3>

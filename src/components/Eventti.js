@@ -45,10 +45,8 @@ class Eventti extends React.Component {
     }
 
     remove = () => {
-        console.log("eventin remove metodissa")
         const eventti = this.props.eventti
         if (window.confirm(`Poistetaanko '${eventti.title}'?`)) {
-            console.log(this.props.remove)
             this.props.remove(eventti)
         }
     }

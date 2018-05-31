@@ -9,7 +9,6 @@ class Togglable extends React.Component {
 
 
     constructor(props) {
-        console.log('luodaan togglen propsit ja statet')
         super(props)
         this.state = {
             visible: false

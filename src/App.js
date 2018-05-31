@@ -51,7 +51,6 @@ class App extends React.Component {
 
     handleFieldChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
-        console.log(event.target.value)
     }
 
 
@@ -79,7 +78,6 @@ class App extends React.Component {
     }
 
     logout = async () => {
-        console.log('logout metodissa')
 
         window.localStorage.removeItem('loggedTrainingappUser')
         this.setState({ user: null, username: '', password: '' })
@@ -108,7 +106,6 @@ class App extends React.Component {
 
     addEventti = async (event) => {
         event.preventDefault()
-        console.log('eventin lisäys-metodissa')
         try {
             const newEventti = await eventtiService.create({
                 title: this.state.title,
@@ -127,9 +124,6 @@ class App extends React.Component {
 
         } catch (exception) {
             this.updateError("We weren't able to add the event.")
-
-            console.log(exception)
-            console.log(this.state.error)
         }
     }
 
@@ -144,17 +138,13 @@ class App extends React.Component {
         const reader = new FileReader();
         const helpList = this.state.attachments
         this.attachmentName = files
-        console.log(attachment)
         reader.onload = (event) => {
             helpList.push(event.target.result.split(',')[1])
-            console.log(event.target.result);
             this.addToCounter()
         }
         const attachment = reader.readAsDataURL(file);
-        console.log("attachment: ", attachment)
         
         this.setState({ attachments: helpList })
-        console.log("attachments: ", this.state.attachments)
     }
 
     emptyAttachments = () => {
@@ -213,7 +203,6 @@ class App extends React.Component {
 
 
         } else {
-            console.log("tässä käyttäjän tiedot: ", this.state.user)
             return (
                 <div >
                     <p>You are logged in as {this.state.name}.</p>
